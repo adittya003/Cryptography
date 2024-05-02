@@ -1,7 +1,7 @@
 import javax.crypto.*;
 import java.security.*;
 import java.util.*;
-
+import java.security.spec.*;
 public class practice {
     public static void main(String[] args) throws Exception{
         String plaintext="hi im adittya";
@@ -50,5 +50,45 @@ public class practice {
         String s1=new String(dec_msg3);
 
         //SHA-512
+
+        MessageDigest digest = MessageDigest.getInstance("SHA-512");
+        byte[] hash= digest.digest(plaintext.getBytes());
+        StringBuilder s2= new StringBuilder(100);
+        for(byte b:hash){
+            String hex = Integer.toString(b, 16);
+            s2.append(hex);
+        }
+
+        //SHA-256
+
+        MessageDigest digest2 = MessageDigest.getInstance("SHA-256");
+        byte[] hash2 = digest2.digest(plaintext.getBytes());
+        StringBuilder s3= new StringBuilder(100);
+        for(byte b:hash2){
+            String hex = Integer.toString(b, 16);
+            s3.append(hex);
+        }
+
+        //MD5
+        
+        MessageDigest digest3 = MessageDigest.getInstance("MD5");
+        byte[] hash3 = digest3.digest(plaintext.getBytes());
+        StringBuilder s4= new StringBuilder(100);
+        for(byte b:hash3){
+            String hex = Integer.toString(b, 16);
+            s4.append(hex);
+        }
+
+        //HMAC-SHA-256
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec("secret_key".getBytes(), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+        
+        byte[] hash4 = sha256_HMAC.doFinal(plaintext.getBytes());
+        StringBuilder s5= new StringBuilder(100);
+        for(byte b:hash4){
+            String hex = Integer.toString(b, 16);
+            s5.append(hex);
+        }
     }
 }
